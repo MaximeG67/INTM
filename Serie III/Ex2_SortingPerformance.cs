@@ -48,14 +48,23 @@ namespace Serie_III
 
         private static List<int[]> ArraysGenerator(int size)
         {
-            //TODO
+            Random rnd = new Random();
+            int[] tab = new int[size];
+            for (int i = 0; i < tab.Length; i++)
+            {
+                tab[i] = rnd.Next(0, 101);
+            }
+
+
             return new List<int[]>();
         }
 
         public static long UseInsertionSort(int[] array)
         {
-            //TODO
-            return -1;
+            Stopwatch s = Stopwatch.StartNew();
+            s.Stop();
+            long tempsbrut = s.ElapsedMilliseconds;
+            return tempsbrut;
         }
 
         public static long UseQuickSort(int[] array)

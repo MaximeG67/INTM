@@ -23,6 +23,21 @@ namespace Serie_III
             //Console.WriteLine(input);
 
             #endregion
+            #region Exercice II - Performances des tris
+            Console.WriteLine("-----------------------------------");
+            Console.WriteLine("Exercice II - Performances des tris");
+            Console.WriteLine("-----------------------------------");
+
+            int[] a = { 6, 4, 8, 2, 9, 3, 9, 4, 7, 6, 1 };
+            int[] b = { 6, 4, 8, 2, 9, 3, 9, 4, 7, 6, 1 };
+            Console.WriteLine(SortingPerformance.UseInsertionSort(a) + " ms");
+            Console.WriteLine(SortingPerformance.UseQuickSort(b) + " ms");
+
+          //  List<int> sizes = new List<int> { 2000, 5000, 10000 };
+          // int count = 10;
+          //  SortingPerformance.DisplayPerformances(sizes, count);
+            #endregion
+
 
             // Keep the console window open
             Console.WriteLine("----------------------");
