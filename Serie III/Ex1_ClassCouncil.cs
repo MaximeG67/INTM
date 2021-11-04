@@ -29,8 +29,11 @@ namespace Serie_III
             {
                 Console.WriteLine(matière.Key);
                 Console.WriteLine(matière.Value.Average());
+                lines[i] = $"{matière.Key};{matière.Value.Average()}";
+                i++;
             }
-            File.WriteAllLines("result.txt", lines);
+
+            File.WriteAllLines(output, lines);
         }
     }
 }
