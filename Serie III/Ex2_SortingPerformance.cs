@@ -31,46 +31,88 @@ namespace Serie_III
     {
         public static void DisplayPerformances(List<int> sizes, int count)
         {
-            //TODO
+            List<SortData> sortin = PerformancesTest(sizes, count);
+            foreach (SortData data in sortin)
+            {
+                Console.WriteLine(data.InsertionMean);
+            }
         }
 
         public static List<SortData> PerformancesTest(List<int> sizes, int count)
         {
-            //TODO
-            return new List<SortData>();
+            List<SortData> sortin = new List<SortData>();
+
+            foreach (int size in sizes)
+            {
+                sortin.Add(PerformanceTest(size, count));
+            }
+
+            return sortin;
         }
 
         public static SortData PerformanceTest(int size, int count)
         {
-            //TODO
-            return new SortData();
+            long[] insert = new long[count];
+            long[] quick = new long[count];
+            SortData sort = new SortData();
+
+            for (int i = 0; i < count; i++)
+            {
+
+                List<int[]> data = ArraysGenerator(size);
+                insert[i] = UseInsertionSort(data[0]);
+                quick[i] = UseQuickSort(data[1]);
+            }
+            sort.InsertionMean = (long)insert.Average();
+            sort.QuickMean = (long)quick.Average();
+            sort.InsertionStd = EcartType(insert);
+            sort.QuickStd = EcartType(quick);
+
+            return sort;
         }
 
         private static List<int[]> ArraysGenerator(int size)
         {
-            Random rnd = new Random();
-            int[] tab = new int[size];
-            for (int i = 0; i < tab.Length; i++)
+            int[] arr = new int[size];
+            int[] arr2 = new int[size];
+            Random r = new Random();
+            for (int i = 0; i < size; i++)
             {
-                tab[i] = rnd.Next(0, 101);
+                int rndNbr = r.Next(-1000, 1001);
+                arr[i] = rndNbr;
+                arr2[i] = rndNbr;
             }
-
-
-            return new List<int[]>();
+            return new List<int[]> { arr, arr2 };
         }
+
 
         public static long UseInsertionSort(int[] array)
         {
-            Stopwatch s = Stopwatch.StartNew();
-            s.Stop();
-            long tempsbrut = s.ElapsedMilliseconds;
-            return tempsbrut;
+            Stopwatch watch = Stopwatch.StartNew();
+            InsertionSort(array);
+            watch.Stop();
+            return watch.ElapsedMilliseconds;
         }
+
+        private static long EcartType(long[] tab)
+        {
+            long res = 0;
+            if (tab.Length > 0)
+            {
+                long avg = (long)tab.Average();
+                long sum = (long)tab.Sum(d => Math.Pow(d - avg, 2));
+                res = (long)Math.Sqrt(sum / tab.Length - 1);
+            }
+            return res;
+        }
+
 
         public static long UseQuickSort(int[] array)
         {
-            //TODO
-            return -1;
+            Stopwatch s = Stopwatch.StartNew();
+            QuickSort(array, 0, array.Length - 1);
+            s.Stop();
+            return s.ElapsedMilliseconds;
         }
 
         private static void InsertionSort(int[] array)
