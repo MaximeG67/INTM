@@ -86,13 +86,14 @@ namespace Serie_III
             return new List<int[]> { arr, arr2 };
         }
 
-
+        
         public static long UseInsertionSort(int[] array)
         {
             Stopwatch watch = Stopwatch.StartNew();
             InsertionSort(array);
             watch.Stop();
             return watch.ElapsedMilliseconds;
+            
         }
 
         private static long EcartType(long[] tab)
