@@ -32,9 +32,10 @@ namespace Serie_III
         public static void DisplayPerformances(List<int> sizes, int count)
         {
             List<SortData> sortin = PerformancesTest(sizes, count);
+            Console.WriteLine("n;MeanInsertion;StdInsertion;MeanQuick;StdQuick");
             foreach (SortData data in sortin)
             {
-                Console.WriteLine(data.InsertionMean);
+                Console.WriteLine($"{data.InsertionMean};{data.InsertionStd};{data.QuickMean};{data.QuickStd}");
             }
         }
 
