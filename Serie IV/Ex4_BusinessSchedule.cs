@@ -46,63 +46,58 @@ namespace Serie_IV
 
         private KeyValuePair<DateTime, DateTime> ClosestElements(DateTime beginMeeting)
         {
-            KeyValuePair<DateTime, DateTime> abc = new KeyValuePair<DateTime, DateTime>();
-            if (IsEmpty())
-            {
-                return new KeyValuePair<DateTime, DateTime>();
-            }
-            else if (_calendar.Count == 1)
-            {
-                foreach (var meeting in _calendar)
-                {
+            DateTime datemin = DateTime.MinValue;
+            DateTime datemax = DateTime.MaxValue;
 
+            foreach (DateTime meeting in _calendar.Keys)
+            {
+                if (beginMeeting >= meeting)
+                {
+                    datemin = meeting;
                 }
-
-
-                if (_calendar. > beginMeeting)
+                else if (beginMeeting <= meeting)
                 {
-                    abc = (new KeyValuePair<DateTime, DateTime>(beginMeeting, DateTime.MinValue));
-                    return abc;
-                }
-                abc = (new KeyValuePair<DateTime, DateTime>(DateTime.MinValue, beginMeeting));
-                return abc;
-            }
-            else
-            {
-                DateTime before;
-                DateTime after;
-                foreach (var meeting in _calendar)
-                {
-                    if (meeting.Key > beginMeeting)
-                    {
-                        before = beginMeeting;
-                    }
-                    else
-                    {
-                        after = beginMeeting;
-                        abc = (new KeyValuePair<DateTime, DateTime>());
-                    }
+                    datemax = meeting;
+                    break;
                 }
             }
-            return new KeyValuePair<DateTime, DateTime>();
+            return new KeyValuePair<DateTime, DateTime>(datemin,datemax);
         }
 
         public bool AddBusinessMeeting(DateTime date, TimeSpan duration)
         {
-            //TODO
+            if (date >= _beginning && date + duration <= _end)
+            {
+                KeyValuePair<DateTime, DateTime> closestElements = ClosestElements(date);
+                DateTime lowerDt = closestElements.Key;
+                DateTime upperDt = closestElements.Value;
+
+                if ((lowerDt == DateTime.MinValue || date >= lowerDt + _calendar[lowerDt]) && 
+                    (upperDt == DateTime.MaxValue || date + duration <= upperDt ))
+                {
+                    _calendar.Add(date, duration);
+                    return true;
+                }
+            }
             return false;
         }
 
         public bool DeleteBusinessMeeting(DateTime date, TimeSpan duration)
         {
-            //TODO
             return false;
         }
 
         public int ClearMeetingPeriod(DateTime begin, DateTime end)
         {
-            //TODO
-            return -1;
+            foreach (var meeting in _calendar.Keys)
+            {
+                if (meeting > begin && meeting < end)
+                {
+                    _calendar.Remove(meeting);
+                    meetingsDeleted++;
+                }
+            }
+            return meetingsDeleted;
         }
 
         public void DisplayMeetings()
