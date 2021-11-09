@@ -30,7 +30,7 @@ namespace Serie_IV
                 {$"{Ti}.{Ti}.{Ti}.{Ti}", 'H'},
                 {$"{Ti}.{Ti}", 'I'},
                 {$"{Ti}.{Taah}.{Taah}.{Taah}", 'J'},
-                {$"{Taah}.{Ti}.{Taah}", 'K'},
+                {$"{Taah}.{Ti}.{Taah}", 'K'},//
                 {$"{Ti}.{Taah}.{Ti}.{Ti}", 'L'},
                 {$"{Taah}.{Taah}", 'M'},
                 {$"{Taah}.{Ti}", 'N'},
@@ -51,26 +51,56 @@ namespace Serie_IV
 
         public int LettersCount(string code)
         {
-            //TODO
-            return -1;
+            return code.Split(new string[] { PointLetter }, StringSplitOptions.RemoveEmptyEntries).Length;
+
         }
 
         public int WordsCount(string code)
         {
-            //TODO
-            return -1;
+            return code.Split(new string[] { PointWord }, StringSplitOptions.RemoveEmptyEntries).Length;
+
         }
 
         public string MorseTranslation(string code)
         {
-            //TODO
-            return string.Empty;
+            string translation = "";
+
+            //foreach split mot split lettre 
+            string[] mots = code.Split(new string[] { PointWord }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var mot in mots)
+            {
+                string[] lettres = mot.Split(new string[] { PointLetter }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (var lettre in lettres)
+                {
+                    if (_alphabet.ContainsKey(lettre))
+                    {
+                        translation += _alphabet[lettre];
+                    }
+                    else
+                    {
+                        translation += "+";
+                    }
+                }
+                //translation = translation + " ";
+                translation += " ";
+            }
+
+            //Console.WriteLine($"Mot: {translation}");
+            return translation;
         }
 
         public string EfficientMorseTranslation(string code)
         {
-            //TODO
-            return string.Empty;
+            code = code.Trim('.');
+            foreach (char c in code)
+            {
+                int position = code.IndexOf("...");
+                Console.WriteLine("Clé: {0}, Valeur: '{1}'", code.Substring(0, position), code.Substring(position + 3));
+                //Console.WriteLine(c);
+
+            }
+
+            return code;
         }
 
         public string MorseEncryption(string sentence)

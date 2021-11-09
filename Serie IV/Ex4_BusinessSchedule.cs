@@ -84,11 +84,19 @@ namespace Serie_IV
 
         public bool DeleteBusinessMeeting(DateTime date, TimeSpan duration)
         {
+            if (!IsEmpty() && _calendar.ContainsKey(date) && _calendar[date] == duration )
+            {
+                return _calendar.Remove(date);
+            }
             return false;
         }
 
         public int ClearMeetingPeriod(DateTime begin, DateTime end)
         {
+            //TODO
+
+            int meetingsDeleted = 0;
+
             foreach (var meeting in _calendar.Keys)
             {
                 if (meeting > begin && meeting < end)
@@ -97,6 +105,8 @@ namespace Serie_IV
                     meetingsDeleted++;
                 }
             }
+
+
             return meetingsDeleted;
         }
 
