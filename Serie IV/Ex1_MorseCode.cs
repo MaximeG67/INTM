@@ -45,7 +45,16 @@ namespace Serie_IV
                 {$"{Ti}.{Taah}.{Taah}", 'W'},
                 {$"{Taah}.{Ti}.{Ti}.{Taah}", 'X'},
                 {$"{Taah}.{Ti}.{Taah}.{Taah}", 'Y'},
-                {$"{Taah}.{Taah}.{Ti}.{Ti}", 'Z'},
+                {$"{Ti}.{Taah}.{Taah}.{Taah}.{Taah}", '1'},
+                {$"{Ti}.{Ti}.{Taah}.{Taah}.{Taah}", '2'},
+                {$"{Ti}.{Ti}.{Ti}.{Taah}.{Taah}", '3'},
+                {$"{Ti}.{Ti}.{Ti}.{Ti}.{Taah}", '4'},
+                {$"{Ti}.{Ti}.{Ti}.{Ti}.{Ti}", '5'},
+                {$"{Taah}.{Ti}.{Ti}.{Ti}.{Ti}", '6'},
+                {$"{Taah}.{Taah}.{Ti}.{Ti}.{Ti}", '7'},
+                {$"{Taah}.{Taah}.{Taah}.{Ti}.{Ti}", '8'},
+                {$"{Taah}.{Taah}.{Taah}.{Taah}.{Ti}", '9'},
+                {$"{Taah}.{Taah}.{Taah}.{Taah}.{Taah}", '0'},
             };
         }
 
@@ -72,14 +81,7 @@ namespace Serie_IV
                 string[] lettres = mot.Split(new string[] { PointLetter }, StringSplitOptions.RemoveEmptyEntries);
                 foreach (var lettre in lettres)
                 {
-                    if (_alphabet.ContainsKey(lettre))
-                    {
-                        translation += _alphabet[lettre];
-                    }
-                    else
-                    {
-                        translation += "+";
-                    }
+                    translation += GetChar(lettre);
                 }
                 //translation = translation + " ";
                 translation += " ";
@@ -92,21 +94,62 @@ namespace Serie_IV
         public string EfficientMorseTranslation(string code)
         {
             code = code.Trim('.');
-            foreach (char c in code)
+            StringBuilder sb = new StringBuilder();
+            int pointCount = 0;
+            int startIndex = 0;
+            int charLenght = 0;
+            for (int i = 0; i < code.Length; i++)
             {
-                int position = code.IndexOf("...");
-                Console.WriteLine("Clé: {0}, Valeur: '{1}'", code.Substring(0, position), code.Substring(position + 3));
-                //Console.WriteLine(c);
-
+                if (code[i] == '.')
+                {
+                    pointCount++;
+                    Console.WriteLine(pointCount);
+                }
+                else
+                {
+                    if (pointCount > 2)
+                    {
+                        string sub = code.Substring(startIndex, charLenght - pointCount).Replace("..", ".");
+                        Console.WriteLine(sub);
+                        sb.Append(GetChar(sub));
+                        startIndex = i;
+                        charLenght = 0;
+                    }
+                    if (pointCount > 4)
+                    {
+                        sb.Append(" ");
+                    }
+                    pointCount = 0;
+                }
+                charLenght++;
+                Console.WriteLine(code[i]);
             }
+            sb.Append(GetChar(code.Substring(startIndex, charLenght).Replace("..", ".")));
 
-            return code;
+            return sb.ToString();
         }
 
+        private char GetChar(string lettre)
+        {
+            if (_alphabet.ContainsKey(lettre))
+            {
+                return _alphabet[lettre];
+            }
+            return '+';
+        }
         public string MorseEncryption(string sentence)
         {
-            //TODO
-            return string.Empty;
+            string code = "";
+            foreach (char letter in sentence.ToUpper())
+            {
+                if (letter == ' ')
+                    code += "..";
+                var res = _alphabet.FirstOrDefault(x => x.Value == letter);
+                if (!string.IsNullOrEmpty(res.Key))
+                    code += res.Key + "...";
+            }
+            return code.Trim('.');
         }
     }
 }
+

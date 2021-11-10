@@ -18,9 +18,11 @@ namespace Serie_IV
             Morse s = new Morse();
             Console.WriteLine("Traduction Morse :");
             // Codes en morse
-            string morse = "...........===..=.===.=...===.===.===...===.=.=...=.....===.===...===.===.===...=.===.=...=.=.=...=";
+            string morse = "........===..=.===.=...===.===.===...===.=.=...=.....===.===...===.===.===...=.===.=...=.=.=...=.....===.===.=.=.=...=.=.=.=.=";
             //Console.WriteLine($"{morse} : {s.LettersCount(morse)} lettres - {s.WordsCount(morse)} mots");
             Console.WriteLine($"{s.EfficientMorseTranslation(morse)}");
+            morse = "QTC 52 ";
+            Console.WriteLine(s.MorseEncryption(morse));
             #endregion
             //#region Exercice III - Liste des contacts télephoniques
             //Console.WriteLine("-----------------------------------------------");
